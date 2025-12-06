@@ -4,7 +4,9 @@ import auth from "../../middleware/auth";
 
 const router = express.Router();
 
-router.post('/vehicles',auth("admin"), vehicleController.createVehicle)
+router.post('/vehicles', auth("admin"), vehicleController.createVehicle);
+
+router.get('/vehicles', vehicleController.getVehicles)
 
 
 export const vehicleRouter = router;
