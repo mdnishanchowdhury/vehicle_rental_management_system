@@ -19,7 +19,7 @@ app.get('/', (req: Request, res: Response) => {
 initDB();
 
 // create user
-app.use('/api/v1/auth', userRouter);
+app.use('/api/v1', userRouter);
 
 // Authentication
 app.use('/api/v1/auth', authRoutes);

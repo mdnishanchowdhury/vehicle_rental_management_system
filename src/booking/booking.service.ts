@@ -50,4 +50,24 @@ const createBooking = async (payload: BookingPayload) => {
     };
 };
 
-export const bookingService = { createBooking };
+
+const getBooking = async (payload: { user: { id: number; role: string } }) => {
+    const user = payload.user;
+
+
+    let result;
+
+    if (user.role === "admin") {
+        result = await pool.query(`SELECT * FROM bookings`);
+    } else {
+        result = await pool.query(`SELECT * FROM bookings WHERE customer_id = $1`, [user.id]);
+    }
+
+    return result.rows;
+};
+
+
+export const bookingService = {
+    createBooking,
+    getBooking
+};

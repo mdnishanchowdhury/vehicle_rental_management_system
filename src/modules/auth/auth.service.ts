@@ -20,7 +20,7 @@ const loginUser = async (email: string, password: string) => {
         expiresIn: "5d"
     });
 
-    return { token, user }
+    return { token, user  }
 
 };
 
