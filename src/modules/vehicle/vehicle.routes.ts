@@ -10,7 +10,8 @@ router.get('/vehicles', vehicleController.getVehicles);
 
 router.get('/vehicles/:id', vehicleController.getSignleVehicles);
 
-router.put('/vehicles/:id',vehicleController.updateVehicle)
+router.put('/vehicles/:id', auth("admin"), vehicleController.updateVehicle)
 
+router.delete('/vehicles/:id',auth("admin"), vehicleController.deleteVehicle)
 
 export const vehicleRouter = router;
