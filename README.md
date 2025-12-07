@@ -38,5 +38,4 @@
 
 ### **Deployment**
 - Vercel (Backend)  
-- PostgreSQL Cloud
 
