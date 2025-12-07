@@ -4,7 +4,7 @@ import initDB from './config/db';
 import { userRouter } from './modules/user/user.routes';
 import { authRoutes } from './modules/auth/auth.routes';
 import { vehicleRouter } from './modules/vehicle/vehicle.routes';
-import { bookingRoutes } from './booking/booking.routes';
+import { bookingRoutes } from './modules/booking/booking.routes';
 
 const app = express()
 app.use(express.json());

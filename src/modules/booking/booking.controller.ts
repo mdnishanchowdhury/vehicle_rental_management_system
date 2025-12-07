@@ -20,10 +20,8 @@ const createBooking = async (req: Request, res: Response) => {
     }
 };
 
-// Controller
+
 const getBooking = async (req: Request, res: Response) => {
-// console.log("user",req.user)
-// const { id, name, email, role } =req.user;
     try {
         const bookings = await bookingService.getBooking({ user: req.user as any });
 
@@ -49,9 +47,42 @@ const getBooking = async (req: Request, res: Response) => {
     }
 };
 
+const updateBooking = async (req: Request, res: Response) => {
+    try {
+        const bookingId = req.params.id;
+        if (!bookingId) {
+            return res.status(400).json({
+                success: false,
+                message: "Booking ID is required",
+            });
+        }
 
+        const user = req.user as { id: number; role: string } | undefined;
+        if (!user) {
+            return res.status(401).json({ success: false, message: "Unauthorized" });
+        }
+
+        const booking = await bookingService.updateBooking(req.body, bookingId, user);
+
+        const message = booking.status === "returned"
+            ? "Booking marked as returned. Vehicle is now available"
+            : "Booking cancelled successfully";
+
+        res.status(200).json({
+            success: true,
+            message,
+            data: booking,
+        });
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
 
 export const bookingController = {
     createBooking,
-    getBooking
+    getBooking,
+    updateBooking
 };
