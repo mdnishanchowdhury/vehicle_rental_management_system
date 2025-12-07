@@ -22,7 +22,8 @@ const createBooking = async (req: Request, res: Response) => {
 
 // Controller
 const getBooking = async (req: Request, res: Response) => {
-
+// console.log("user",req.user)
+// const { id, name, email, role } =req.user;
     try {
         const bookings = await bookingService.getBooking({ user: req.user as any });
 
