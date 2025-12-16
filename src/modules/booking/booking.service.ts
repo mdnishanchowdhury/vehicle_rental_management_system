@@ -67,7 +67,12 @@ const getBooking = async (payload: Record<string, unknown>) => {
         `, [id]);
     }
 
-    return result.rows;
+    return result.rows.map(row => ({
+        ...row,
+        rent_start_date: formatDate(row.rent_start_date),
+        rent_end_date: formatDate(row.rent_end_date)
+    }));
+
 };
 
 
@@ -113,7 +118,13 @@ const updateBooking = async (payload: Record<string, unknown>, bookingId: string
         vehicle = vehicleResult.rows[0];
     }
 
-    return { ...booking, vehicle };
+    return {
+        ...booking,
+        rent_start_date: formatDate(booking.rent_start_date),
+        rent_end_date: formatDate(booking.rent_end_date),
+        vehicle
+    };
+
 };
 
 

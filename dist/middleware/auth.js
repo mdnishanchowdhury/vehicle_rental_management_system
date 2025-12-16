@@ -8,12 +8,15 @@ const config_1 = __importDefault(require("../config"));
 const auth = (...roles) => {
     return (req, res, next) => {
         try {
-            const token = req.headers.authorization;
-            if (!token) {
-                return res.status(500).json({
+            const authHeader = req.headers.authorization;
+            if (!authHeader || !authHeader.startsWith("Bearer ")) {
+                return res.status(401).json({
                     message: "You are not allowed!!"
                 });
             }
+            const token = authHeader.split(' ')[1];
+            if (!token)
+                return res.status(401).json({ message: "Token missing!" });
             const decoded = jsonwebtoken_1.default.verify(token, config_1.default.jwtSecret);
             req.user = decoded;
             if (roles.length && !roles.includes(decoded.role)) {

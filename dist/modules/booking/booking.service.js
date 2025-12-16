@@ -40,7 +40,11 @@ const getBooking = async (payload) => {
             JOIN users u ON b.customer_id = u.id JOIN vehicles v ON b.vehicle_id = v.id WHERE b.customer_id = $1
         `, [id]);
     }
-    return result.rows;
+    return result.rows.map(row => ({
+        ...row,
+        rent_start_date: formatDate(row.rent_start_date),
+        rent_end_date: formatDate(row.rent_end_date)
+    }));
 };
 const updateBooking = async (payload, bookingId, user) => {
     const { status } = payload;
@@ -64,7 +68,12 @@ const updateBooking = async (payload, bookingId, user) => {
         const vehicleResult = await db_1.pool.query(`SELECT availability_status FROM vehicles WHERE id=$1`, [booking.vehicle_id]);
         vehicle = vehicleResult.rows[0];
     }
-    return { ...booking, vehicle };
+    return {
+        ...booking,
+        rent_start_date: formatDate(booking.rent_start_date),
+        rent_end_date: formatDate(booking.rent_end_date),
+        vehicle
+    };
 };
 exports.bookingService = {
     createBooking,
